@@ -16,6 +16,6 @@ class PostManagement {
      */
     public function getPost($param)
     {
-        return 'testot' . $param;
+        return 'rd' . $param;
     }
 }

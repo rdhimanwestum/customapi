@@ -3,7 +3,7 @@
     <route method="GET" url="/V1/westum-custapi/post">
         <service class="Westum\CustApi\Api\PostManagementInterface" method="getPost"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="self"/>
         </resources>
     </route>
 </routes>
