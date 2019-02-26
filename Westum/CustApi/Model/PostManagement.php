@@ -16,6 +16,6 @@ class PostManagement {
      */
     public function getPost($param)
     {
-        return 'rd' . $param;
+        return 'Authentication Worked!' . $param;
     }
 }
