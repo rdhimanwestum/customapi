@@ -1,7 +1,7 @@
 # customapi
 
 # Data
-store_name
+```store_name
 store_address
 store_geolocation
 store_owner_name
@@ -18,3 +18,4 @@ order_items = [
 customer_name
 customer_gender
 customer_email
+```
