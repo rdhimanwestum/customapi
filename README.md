@@ -19,6 +19,7 @@ customer_name:string
 customer_gender:boolean
 customer_email:string
 ```
-#Generate Fake Data
-
+# Generate Fake Data
+```
 php bin/magento fakedata:generate
+```
