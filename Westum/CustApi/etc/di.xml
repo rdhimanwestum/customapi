@@ -4,7 +4,7 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="exampleSayHello" xsi:type="object">Westum\CustApi\Console\GenerateFakeData</item>
+                <item name="FakeData" xsi:type="object">Westum\CustApi\Console\GenerateFakeData</item>
             </argument>
         </arguments>
     </type>
