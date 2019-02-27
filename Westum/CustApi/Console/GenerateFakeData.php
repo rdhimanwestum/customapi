@@ -24,7 +24,7 @@ class GenerateFakeData extends Command
 
     protected function configure()
     {
-        $this->setName('fakedata:generatefakedata');
+        $this->setName('fakedata:generate');
         $this->setDescription('Generate Fake Data');
 
         parent::configure();
