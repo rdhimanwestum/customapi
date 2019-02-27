@@ -18,3 +18,7 @@ order_items = [
 customer_name
 customer_gender
 customer_email
+
+#Generate Fake Data
+
+php bin/magento fakedata:generate
