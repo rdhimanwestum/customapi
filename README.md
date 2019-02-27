@@ -21,4 +21,4 @@ customer_email
 
 #Generate Fake Data
 
-php bin/magento fakedata:generate
+php bin/magento fakedata:generate 
