@@ -14,7 +14,7 @@ use Faker\Factory;
 
 class GenerateFakeData extends Command
 {
-    const Counter = 10000;
+    const Counter = 100;
 
     // Initialize Faker Library
     public function __construct(){
