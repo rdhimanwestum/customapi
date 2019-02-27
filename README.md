@@ -15,7 +15,15 @@ order_items = [
 	product_quantity:number
 	product_brand:string
 ]
+customer_name
+customer_gender
+customer_email
+
+#Generate Fake Data
+
+php bin/magento fakedata:generate
+
 customer_name:string
 customer_gender:boolean
 customer_email:string
-```
+ 
