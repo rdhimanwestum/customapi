@@ -7,5 +7,10 @@
                 <item name="FakeData" xsi:type="object">Westum\CustApi\Console\GenerateFakeData</item>
             </argument>
         </arguments>
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="FakeDataImport" xsi:type="object">Westum\CustApi\Console\ImportFakeData</item>
+            </argument>
+        </arguments>
     </type>
 </config>
