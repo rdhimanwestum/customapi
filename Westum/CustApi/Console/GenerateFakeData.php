@@ -7,7 +7,7 @@
  */
 namespace Westum\CustApi\Console;
 
-use Magento\Setup\Exception;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
