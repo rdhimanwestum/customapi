@@ -56,13 +56,10 @@ class Customer
 
             ];
 
-           $data =  $elasticsearch->query($query);
-            print_r($data);
-            foreach ($data['hits']['hits'] as $k=>$val)
-            {
-                echo $val['_source']['customer']['customer_name'];
-            }
-            echo 'customer';die;
+           $data =  $elasticsearch->query($query); //Get Data From Elastic Search
+
+            //Customers will Be Created Here//
+
         }catch (\Exception $e) {
              echo $e->getMessage();
         }
