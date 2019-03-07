@@ -8,9 +8,6 @@
 
 namespace Westum\CustApi\Cron;
 
-use \Psr\Log\LoggerInterface;
-
-
 class Customer
 {
     /**
@@ -28,23 +25,62 @@ class Customer
      */
     protected $adapterElasticsearch;
 
-    protected $logger;
-
     public function __construct(
-        LoggerInterface $logger,
         \Magento\AdvancedSearch\Model\Client\ClientResolver $clientResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Elasticsearch\Model\Adapter\Elasticsearch $adapterElasticsearch
     )
     {
-        $this->logger = $logger;
         $this->clientResolver = $clientResolver;
         $this->scopeConfig = $scopeConfig;
         $this->adapterElasticsearch = $adapterElasticsearch;
     }
 
     public function execute() {
-        $this->logger->info('Customer Cron Works');
-        echo 'Customer';
+
+        try {
+            $params = [];
+            $params['hostname'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_hostname');
+            $params['engine'] = $this->getStoreConfigData('catalog/search/engine');
+            $params['port'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_port');
+            $params['index'] = $this->getStoreConfigData('catalog/search/elasticsearch_index_prefix');
+            $params['enableAuth'] = $this->getStoreConfigData('catalog/search/elasticsearch_enable_auth');
+            $params['username'] = '';
+            $params['password'] = '';
+            $params['timeout'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_timeout');
+            $elasticsearch = $this->clientResolver->create($params['engine'], $params);
+
+            $query = [
+                'index' => 'westum_custapi',
+                'type' => '_doc',
+
+            ];
+
+           $data =  $elasticsearch->query($query);
+            print_r($data);
+            foreach ($data['hits']['hits'] as $k=>$val)
+            {
+                echo $val['_source']['customer']['customer_name'];
+            }
+            echo 'customer';die;
+        }catch (\Exception $e) {
+             echo $e->getMessage();
+        }
+
+}
+
+    /**
+     * Get Store Config Data
+     * @param $path
+     * @return mixed|void
+     */
+    public function getStoreConfigData($path) {
+        if(!$path)
+            return;
+
+        return $this->scopeConfig->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORES
+        );
     }
 }
