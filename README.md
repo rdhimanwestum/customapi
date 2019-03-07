@@ -21,5 +21,9 @@ customer_email:string
 ```
 # Generate Fake Data
 ```
-php bin/magento fakedata:generate
+php bin/magento fakedata:generate --filename='filename.json' --records = 5000000
+```
+# Import Fake Data to Elastic Search
+```
+php bin/magento fakedata:import --user=admin --password=**** --filename='filename.json'
 ```
