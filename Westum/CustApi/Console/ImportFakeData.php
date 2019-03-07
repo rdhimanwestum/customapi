@@ -74,7 +74,7 @@ class ImportFakeData extends Command
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
                 $token = curl_exec($ch);
-                $fake_data = json_encode($this->jsonDir->readFile($input->getOption(self::FILENAME)));
+                $fake_data = $this->jsonDir->readFile($input->getOption(self::FILENAME));
 
                 $ch = curl_init($this->storeurl."rest/V1/westum-custapi/post/?param=something");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
