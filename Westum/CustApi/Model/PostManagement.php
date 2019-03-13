@@ -29,43 +29,15 @@ class PostManagement {
      */
     protected $scopeConfig;
 
-    /**
-     * @var \Magento\Elasticsearch\Model\Adapter\Elasticsearch
-     */
-    protected $adapterElasticsearch;
-
-    /**
-     * @var \Magento\Integration\Model\Oauth\Token
-     */
-    protected $modelOauthToken;
-
-    /**
-     * @var \Magento\User\Model\UserFactory
-     */
-    protected $modelUserFactory;
-
-    /**
-     * @var \Magento\Authorization\Model\Acl\AclRetriever
-     */
-    protected $modelAclRetriever;
-
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\AdvancedSearch\Model\Client\ClientResolver $clientResolver,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Elasticsearch\Model\Adapter\Elasticsearch $adapterElasticsearch,
-        \Magento\Integration\Model\Oauth\Token $modelOauthToken,
-        \Magento\User\Model\UserFactory $modelUserFactory,
-        \Magento\Authorization\Model\Acl\AclRetriever $modelAclRetriever
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     )
     {
         $this->request = $request;
         $this->clientResolver = $clientResolver;
         $this->scopeConfig = $scopeConfig;
-        $this->adapterElasticsearch = $adapterElasticsearch;
-        $this->modelOauthToken = $modelOauthToken;
-        $this->modelUserFactory = $modelUserFactory;
-        $this->modelAclRetriever = $modelAclRetriever;
     }
 
     /**
@@ -87,8 +59,7 @@ class PostManagement {
             $params['username'] = '';
             $params['password'] = '';
             $params['timeout'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_timeout');
-
-
+            
             $elasticsearch = $this->clientResolver->create($params['engine'], $params);
 
             if($elasticsearch->testConnection()) {
