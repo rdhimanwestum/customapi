@@ -3,7 +3,7 @@
     <route method="POST" url="/V1/westum-custapi/post">
         <service class="Westum\CustApi\Api\PostManagementInterface" method="getPost"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Westum_CustApi::import"/>
         </resources>
     </route>
 </routes>
