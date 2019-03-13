@@ -12,6 +12,7 @@ namespace Westum\CustApi\Model;
 class PostManagement {
 
     const ALLOWED_CONTENT_TYPE = 'application/json';
+    const OAUTH_STRING = 'Bearer';
 
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -28,22 +29,15 @@ class PostManagement {
      */
     protected $scopeConfig;
 
-    /**
-     * @var \Magento\Elasticsearch\Model\Adapter\Elasticsearch
-     */
-    protected $adapterElasticsearch;
-
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\AdvancedSearch\Model\Client\ClientResolver $clientResolver,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Elasticsearch\Model\Adapter\Elasticsearch $adapterElasticsearch
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     )
     {
         $this->request = $request;
         $this->clientResolver = $clientResolver;
         $this->scopeConfig = $scopeConfig;
-        $this->adapterElasticsearch = $adapterElasticsearch;
     }
 
     /**
@@ -51,21 +45,21 @@ class PostManagement {
      */
     public function getPost()
     {
-        if($this->request->getHeader('Content-Type') != self::ALLOWED_CONTENT_TYPE)
-            return;
-
-        $jsonDataToArray = json_decode($this->request->getContent(), true);
-        $params = [];
-        $params['hostname'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_hostname');
-        $params['engine'] = $this->getStoreConfigData('catalog/search/engine');
-        $params['port'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_port');
-        $params['index'] = $this->getStoreConfigData('catalog/search/elasticsearch_index_prefix');
-        $params['enableAuth'] = $this->getStoreConfigData('catalog/search/elasticsearch_enable_auth');
-        $params['username'] = '';
-        $params['password'] = '';
-        $params['timeout'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_timeout');
-
         try {
+            if($this->request->getHeader('Content-Type') != self::ALLOWED_CONTENT_TYPE)
+                return;
+
+            $jsonDataToArray = json_decode($this->request->getContent(), true);
+            $params = [];
+            $params['hostname'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_hostname');
+            $params['engine'] = $this->getStoreConfigData('catalog/search/engine');
+            $params['port'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_port');
+            $params['index'] = $this->getStoreConfigData('catalog/search/elasticsearch_index_prefix');
+            $params['enableAuth'] = $this->getStoreConfigData('catalog/search/elasticsearch_enable_auth');
+            $params['username'] = '';
+            $params['password'] = '';
+            $params['timeout'] = $this->getStoreConfigData('catalog/search/elasticsearch_server_timeout');
+            
             $elasticsearch = $this->clientResolver->create($params['engine'], $params);
 
             if($elasticsearch->testConnection()) {
