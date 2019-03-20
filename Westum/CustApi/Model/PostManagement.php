@@ -29,15 +29,37 @@ class PostManagement {
      */
     protected $scopeConfig;
 
+
+    /**
+     * @var \Westum\CustApi\Api\ImportRepositoryInterface
+     */
+    protected $apiImportRepositoryInterface;
+
+    /**
+     * @var \Westum\CustApi\Api\Data\ImportInterface
+     */
+    protected $apiDataImportInterface;
+
+    /**
+     * @var \Magento\Integration\Model\Oauth\Token
+     */
+    protected $modelOauthToken;
+
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\AdvancedSearch\Model\Client\ClientResolver $clientResolver,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Westum\CustApi\Api\ImportRepositoryInterface $apiImportRepositoryInterface,
+        \Westum\CustApi\Api\Data\ImportInterface $apiDataImportInterface,
+        \Magento\Integration\Model\Oauth\Token $modelOauthToken
     )
     {
         $this->request = $request;
         $this->clientResolver = $clientResolver;
         $this->scopeConfig = $scopeConfig;
+        $this->apiImportRepositoryInterface = $apiImportRepositoryInterface;
+        $this->apiDataImportInterface = $apiDataImportInterface;
+        $this->modelOauthToken = $modelOauthToken;
     }
 
     /**
@@ -82,6 +104,12 @@ class PostManagement {
                         ];
                         $elasticsearch->bulkQuery($query);
                     }
+                    /* save auth admin id and import date in a db table */
+                    $authTokenData = $this->modelOauthToken->loadByToken($this->getAuthToken());
+                    if($authTokenData && $authTokenData['admin_id']) {
+                        $this->apiDataImportInterface->setUserId($authTokenData['admin_id']);
+                        $this->apiImportRepositoryInterface->save($this->apiDataImportInterface);
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -104,5 +132,14 @@ class PostManagement {
             $path,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORES
         );
+    }
+
+    /**
+     * Get Authorization Bearer Key
+     * @return string
+     */
+    public function getAuthToken()
+    {
+        return trim(str_replace(self::OAUTH_STRING, '', $this->request->getHeader('Authorization')));
     }
 }

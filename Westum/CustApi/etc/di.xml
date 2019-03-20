@@ -13,4 +13,8 @@
             </argument>
         </arguments>
     </type>
+    <preference for="Westum\CustApi\Api\ImportRepositoryInterface"
+                type="Westum\CustApi\Model\ResourceModel\Elasticsearch\ImportRepository" />
+    <preference for="Westum\CustApi\Api\Data\ImportInterface"
+                type="Westum\CustApi\Model\Data\Import" />
 </config>
